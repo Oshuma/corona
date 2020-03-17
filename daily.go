@@ -13,17 +13,28 @@ const (
 	BaseDailyURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s.csv"
 )
 
+// LastUpdate is used as a time.Time wrapper to parse the LastUpdate CSV field.
+type LastUpdate struct {
+	time.Time
+}
+
+// UnmarshalCSV is used to convert the LastUpdate CSV field to a time.Time.
+func (lu *LastUpdate) UnmarshalCSV(csv string) error {
+	t, err := time.Parse("2006-01-02T15:04:05", csv)
+	lu.Time = t.UTC()
+	return err
+}
+
 // Cases stores case information.
-// FIXME: Fix parsing of LastUpdate
 type Cases struct {
-	ProvinceState string  `csv:"Province/State"`
-	CountryRegion string  `csv:"Country/Region"`
-	LastUpdate    string  `csv:"Last Update"`
-	Confirmed     int     `csv:"Confirmed"`
-	Deaths        int     `csv:"Deaths"`
-	Recovered     int     `csv:"Recovered"`
-	Latitude      float64 `csv:"Latitude"`
-	Longitude     float64 `csv:"Longitude"`
+	ProvinceState string     `csv:"Province/State"`
+	CountryRegion string     `csv:"Country/Region"`
+	LastUpdate    LastUpdate `csv:"Last Update"`
+	Confirmed     int        `csv:"Confirmed"`
+	Deaths        int        `csv:"Deaths"`
+	Recovered     int        `csv:"Recovered"`
+	Latitude      float64    `csv:"Latitude"`
+	Longitude     float64    `csv:"Longitude"`
 }
 
 // DailyWorldwide returns all known worldwide cases.

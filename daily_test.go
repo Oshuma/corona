@@ -2,6 +2,8 @@ package corona
 
 import (
 	"testing"
+
+	"reflect"
 )
 
 // TODO: Load CSV from local file.
@@ -75,5 +77,22 @@ func TestDailyByProvinceNotFound(t *testing.T) {
 	_, err := DailyByProvinceState("foo")
 	if err != ErrorNoCasesFound {
 		t.Fatalf("wrong error returned: %s", err)
+	}
+}
+
+func TestParseLastUpdate(t *testing.T) {
+	cases, err := DailyWorldwide()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c := cases[0]
+	instance := reflect.TypeOf(c.LastUpdate)
+	if instance.Name() != "LastUpdate" {
+		t.Fatal("could not parse LastUpdate")
+	}
+
+	if c.LastUpdate.IsZero() {
+		t.Fatal("error parsing LastUpdate")
 	}
 }
