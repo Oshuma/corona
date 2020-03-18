@@ -9,16 +9,23 @@ import (
 )
 
 const (
+	// ConfirmedURL is the URL where confirmed time series data is pulled.
 	ConfirmedURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv"
-	DeathsURL    = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv"
+
+	// DeathsURL is the URL where deaths time series data is pulled.
+	DeathsURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv"
+
+	// RecoveredURL is the URL where recovered time series data is pulled.
 	RecoveredURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv"
 )
 
+// DateData stores a single time series date and count.
 type DateData struct {
 	Date  time.Time
 	Count int
 }
 
+// TimeSeries stores a single entry in the time series data.
 type TimeSeries struct {
 	ProvinceState string
 	CountryRegion string
@@ -27,10 +34,12 @@ type TimeSeries struct {
 	Dates         []DateData
 }
 
+// TimeSeriesConfirmed returns a time series of all confirmed cases.
 func TimeSeriesConfirmed() ([]*TimeSeries, error) {
 	return timeSeriesForURL(ConfirmedURL)
 }
 
+// TimeSeriesConfirmedByCountry returns a time series of all confirmed cases in the given country.
 func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
 	confirmed, err := timeSeriesForURL(ConfirmedURL)
 	if err != nil {
@@ -46,18 +55,22 @@ func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
+// TimeSeriesConfirmedByState returns a time series of all confirmed cases in the given state.
 func TimeSeriesConfirmedByState(state string) (*TimeSeries, error) {
 	return confirmedByProvinceOrState(state)
 }
 
+// TimeSeriesConfirmedByProvince returns a time series of all confirmed cases in the given province.
 func TimeSeriesConfirmedByProvince(province string) (*TimeSeries, error) {
 	return confirmedByProvinceOrState(province)
 }
 
+// TimeSeriesDeaths returns a time series of all deaths.
 func TimeSeriesDeaths() ([]*TimeSeries, error) {
 	return timeSeriesForURL(DeathsURL)
 }
 
+// TimeSeriesDeathsByCountry returns a time series of all deaths in the given country.
 func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
 	deaths, err := timeSeriesForURL(DeathsURL)
 	if err != nil {
@@ -73,18 +86,22 @@ func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
+// TimeSeriesDeathsByState returns a time series of all deaths in the given state.
 func TimeSeriesDeathsByState(state string) (*TimeSeries, error) {
 	return deathsByProvinceOrState(state)
 }
 
+// TimeSeriesDeathsByProvince returns a time series of all deaths in the given province.
 func TimeSeriesDeathsByProvince(province string) (*TimeSeries, error) {
 	return deathsByProvinceOrState(province)
 }
 
+// TimeSeriesRecovered returns a time series of all recovered cases.
 func TimeSeriesRecovered() ([]*TimeSeries, error) {
 	return timeSeriesForURL(RecoveredURL)
 }
 
+// TimeSeriesRecoveredByCountry returns a time series of all recovered cases in the given country.
 func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
 	recovered, err := timeSeriesForURL(RecoveredURL)
 	if err != nil {
@@ -100,10 +117,12 @@ func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
+// TimeSeriesRecoveredByState returns a time series of all recovered cases in the given state.
 func TimeSeriesRecoveredByState(state string) (*TimeSeries, error) {
 	return recoveredByProvinceOrState(state)
 }
 
+// TimeSeriesRecoveredByProvince returns a time series of all recovered cases in the given province.
 func TimeSeriesRecoveredByProvince(province string) (*TimeSeries, error) {
 	return recoveredByProvinceOrState(province)
 }

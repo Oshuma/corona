@@ -1,3 +1,4 @@
+// Package corona provides data from the Novel Coronavirus (COVID-19) Cases, provided by JHU CSSE.
 package corona
 
 const (
