@@ -2,6 +2,7 @@ package corona
 
 import (
 	"net/http"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -25,6 +26,13 @@ type DateData struct {
 	Date  time.Time
 	Count int
 }
+
+// ByDate is used to sort time series dates.
+type ByDate []DateData
+
+func (d ByDate) Len() int           { return len(d) }
+func (d ByDate) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }
+func (d ByDate) Less(i, j int) bool { return d[i].Date.Before(d[j].Date) }
 
 // TimeSeries stores a single entry in the time series data.
 type TimeSeries struct {
@@ -265,6 +273,8 @@ func timeSeriesForURL(url string) ([]*TimeSeries, error) {
 				ts.Dates = append(ts.Dates, d)
 			}
 		}
+
+		sort.Sort(ByDate(ts.Dates))
 
 		data = append(data, &ts)
 	}

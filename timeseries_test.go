@@ -332,3 +332,17 @@ func TestTimeSeriesRecoveredByProvinceNotFound(t *testing.T) {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
+
+func TestSortedDates(t *testing.T) {
+	all, err := TimeSeriesConfirmed()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ts := all[0]
+	d1 := ts.Dates[0]
+	d2 := ts.Dates[1]
+	if d2.Date.Before(d1.Date) {
+		t.Fatal("dates not sorted")
+	}
+}
