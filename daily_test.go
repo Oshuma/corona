@@ -62,7 +62,7 @@ func TestDailyByStateNotFound(t *testing.T) {
 }
 
 func TestDailyByProvince(t *testing.T) {
-	cases, err := DailyByProvinceState("Hubei")
+	cases, err := DailyByProvince("Hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -74,7 +74,7 @@ func TestDailyByProvince(t *testing.T) {
 }
 
 func TestDailyByProvinceNotFound(t *testing.T) {
-	_, err := DailyByProvinceState("foo")
+	_, err := DailyByProvince("foo")
 	if err != ErrorNoCasesFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}

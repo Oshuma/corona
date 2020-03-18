@@ -73,8 +73,8 @@ func DailyByState(state string) ([]*Cases, error) {
 	return dailyByProvinceOrState(state)
 }
 
-// DailyByProvinceState returns all known cases by province.
-func DailyByProvinceState(province string) ([]*Cases, error) {
+// DailyByProvince returns all known cases by province.
+func DailyByProvince(province string) ([]*Cases, error) {
 	return dailyByProvinceOrState(province)
 }
 
