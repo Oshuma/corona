@@ -48,7 +48,7 @@ func DailyWorldwide() ([]*Cases, error) {
 	return cases, nil
 }
 
-// DailyByCountry returns all known cases by country.
+// DailyByCountry returns all known cases by country; case insensitive.
 func DailyByCountry(country string) ([]*Cases, error) {
 	cases, err := getCases()
 	if err != nil {
@@ -69,12 +69,12 @@ func DailyByCountry(country string) ([]*Cases, error) {
 	return byCountry, nil
 }
 
-// DailyByState returns all known cases by state.
+// DailyByState returns all known cases by state; case insensitive.
 func DailyByState(state string) (*Cases, error) {
 	return dailyByProvinceOrState(state)
 }
 
-// DailyByProvince returns all known cases by province.
+// DailyByProvince returns all known cases by province; case insensitive.
 func DailyByProvince(province string) (*Cases, error) {
 	return dailyByProvinceOrState(province)
 }

@@ -26,6 +26,17 @@ func TestTimeSeriesConfirmedByCountry(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesConfirmedByCountryInsensitive(t *testing.T) {
+	ts, err := TimeSeriesConfirmedByCountry("us")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.CountryRegion != "US" {
+		t.Fatal("wrong country loaded")
+	}
+}
+
 func TestTimeSeriesConfirmedByCountryNotFound(t *testing.T) {
 	_, err := TimeSeriesConfirmedByCountry("foo")
 	if err != ErrorNoCasesFound {
@@ -44,6 +55,17 @@ func TestTimeSeriesConfirmedByState(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesConfirmedByStateInsensitive(t *testing.T) {
+	ts, err := TimeSeriesConfirmedByState("south carolina")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "South Carolina" {
+		t.Fatal("wrong state loaded")
+	}
+}
+
 func TestTimeSeriesConfirmedByStateNotFound(t *testing.T) {
 	_, err := TimeSeriesConfirmedByState("foo")
 	if err != ErrorNoCasesFound {
@@ -53,6 +75,17 @@ func TestTimeSeriesConfirmedByStateNotFound(t *testing.T) {
 
 func TestTimeSeriesConfirmedByProvince(t *testing.T) {
 	ts, err := TimeSeriesConfirmedByProvince("Hubei")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "Hubei" {
+		t.Fatal("wrong state loaded")
+	}
+}
+
+func TestTimeSeriesConfirmedByProvinceInsensitive(t *testing.T) {
+	ts, err := TimeSeriesConfirmedByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -91,6 +124,17 @@ func TestTimeSeriesDeathsByCountry(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesDeathsByCountryInsensitive(t *testing.T) {
+	ts, err := TimeSeriesDeathsByCountry("us")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.CountryRegion != "US" {
+		t.Fatal("wrong country loaded")
+	}
+}
+
 func TestTimeSeriesDeathsByCountryNotFound(t *testing.T) {
 	_, err := TimeSeriesDeathsByCountry("foo")
 	if err != ErrorNoCasesFound {
@@ -109,6 +153,17 @@ func TestTimeSeriesDeathsByState(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesDeathsByStateInsensitive(t *testing.T) {
+	ts, err := TimeSeriesDeathsByState("south carolina")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "South Carolina" {
+		t.Fatal("wrong state loaded")
+	}
+}
+
 func TestTimeSeriesDeathsByStateNotFound(t *testing.T) {
 	_, err := TimeSeriesDeathsByState("foo")
 	if err != ErrorNoCasesFound {
@@ -118,6 +173,17 @@ func TestTimeSeriesDeathsByStateNotFound(t *testing.T) {
 
 func TestTimeSeriesDeathsByProvince(t *testing.T) {
 	ts, err := TimeSeriesDeathsByProvince("Hubei")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "Hubei" {
+		t.Fatal("wrong province loaded")
+	}
+}
+
+func TestTimeSeriesDeathsByProvinceInsensitive(t *testing.T) {
+	ts, err := TimeSeriesDeathsByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -156,6 +222,16 @@ func TestTimeSeriesRecoveredByCountry(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesRecoveredByCountryInsensitive(t *testing.T) {
+	ts, err := TimeSeriesRecoveredByCountry("us")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.CountryRegion != "US" {
+		t.Fatal("wrong country loaded")
+	}
+}
 func TestTimeSeriesRecoveredByCountryNotFound(t *testing.T) {
 	_, err := TimeSeriesRecoveredByCountry("foo")
 	if err != ErrorNoCasesFound {
@@ -174,6 +250,17 @@ func TestTimeSeriesRecoveredByState(t *testing.T) {
 	}
 }
 
+func TestTimeSeriesRecoveredByStateInsensitive(t *testing.T) {
+	ts, err := TimeSeriesRecoveredByState("south carolina")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "South Carolina" {
+		t.Fatal("wrong state loaded")
+	}
+}
+
 func TestTimeSeriesRecoveredByStateNotFound(t *testing.T) {
 	_, err := TimeSeriesRecoveredByState("foo")
 	if err != ErrorNoCasesFound {
@@ -183,6 +270,17 @@ func TestTimeSeriesRecoveredByStateNotFound(t *testing.T) {
 
 func TestTimeSeriesRecoveredByProvince(t *testing.T) {
 	ts, err := TimeSeriesRecoveredByProvince("Hubei")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if ts.ProvinceState != "Hubei" {
+		t.Fatal("wrong province loaded")
+	}
+}
+
+func TestTimeSeriesRecoveredByProvinceInsensitive(t *testing.T) {
+	ts, err := TimeSeriesRecoveredByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}

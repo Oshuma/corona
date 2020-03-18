@@ -3,6 +3,7 @@ package corona
 import (
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gocarina/gocsv"
@@ -39,7 +40,7 @@ func TimeSeriesConfirmed() ([]*TimeSeries, error) {
 	return timeSeriesForURL(ConfirmedURL)
 }
 
-// TimeSeriesConfirmedByCountry returns a time series of all confirmed cases in the given country.
+// TimeSeriesConfirmedByCountry returns a time series of all confirmed cases in the given country; case insensitive.
 func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
 	confirmed, err := timeSeriesForURL(ConfirmedURL)
 	if err != nil {
@@ -47,7 +48,7 @@ func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range confirmed {
-		if ts.CountryRegion == country {
+		if strings.EqualFold(ts.CountryRegion, country) {
 			return ts, nil
 		}
 	}
@@ -55,12 +56,12 @@ func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
-// TimeSeriesConfirmedByState returns a time series of all confirmed cases in the given state.
+// TimeSeriesConfirmedByState returns a time series of all confirmed cases in the given state; case insensitive.
 func TimeSeriesConfirmedByState(state string) (*TimeSeries, error) {
 	return confirmedByProvinceOrState(state)
 }
 
-// TimeSeriesConfirmedByProvince returns a time series of all confirmed cases in the given province.
+// TimeSeriesConfirmedByProvince returns a time series of all confirmed cases in the given province; case insensitive.
 func TimeSeriesConfirmedByProvince(province string) (*TimeSeries, error) {
 	return confirmedByProvinceOrState(province)
 }
@@ -70,7 +71,7 @@ func TimeSeriesDeaths() ([]*TimeSeries, error) {
 	return timeSeriesForURL(DeathsURL)
 }
 
-// TimeSeriesDeathsByCountry returns a time series of all deaths in the given country.
+// TimeSeriesDeathsByCountry returns a time series of all deaths in the given country; case insensitive.
 func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
 	deaths, err := timeSeriesForURL(DeathsURL)
 	if err != nil {
@@ -78,7 +79,7 @@ func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range deaths {
-		if ts.CountryRegion == country {
+		if strings.EqualFold(ts.CountryRegion, country) {
 			return ts, nil
 		}
 	}
@@ -86,12 +87,12 @@ func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
-// TimeSeriesDeathsByState returns a time series of all deaths in the given state.
+// TimeSeriesDeathsByState returns a time series of all deaths in the given state; case insensitive.
 func TimeSeriesDeathsByState(state string) (*TimeSeries, error) {
 	return deathsByProvinceOrState(state)
 }
 
-// TimeSeriesDeathsByProvince returns a time series of all deaths in the given province.
+// TimeSeriesDeathsByProvince returns a time series of all deaths in the given province; case insensitive.
 func TimeSeriesDeathsByProvince(province string) (*TimeSeries, error) {
 	return deathsByProvinceOrState(province)
 }
@@ -101,7 +102,7 @@ func TimeSeriesRecovered() ([]*TimeSeries, error) {
 	return timeSeriesForURL(RecoveredURL)
 }
 
-// TimeSeriesRecoveredByCountry returns a time series of all recovered cases in the given country.
+// TimeSeriesRecoveredByCountry returns a time series of all recovered cases in the given country; case insensitive.
 func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
 	recovered, err := timeSeriesForURL(RecoveredURL)
 	if err != nil {
@@ -109,7 +110,7 @@ func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range recovered {
-		if ts.CountryRegion == country {
+		if strings.EqualFold(ts.CountryRegion, country) {
 			return ts, nil
 		}
 	}
@@ -117,12 +118,12 @@ func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
 	return nil, ErrorNoCasesFound
 }
 
-// TimeSeriesRecoveredByState returns a time series of all recovered cases in the given state.
+// TimeSeriesRecoveredByState returns a time series of all recovered cases in the given state; case insensitive.
 func TimeSeriesRecoveredByState(state string) (*TimeSeries, error) {
 	return recoveredByProvinceOrState(state)
 }
 
-// TimeSeriesRecoveredByProvince returns a time series of all recovered cases in the given province.
+// TimeSeriesRecoveredByProvince returns a time series of all recovered cases in the given province; case insensitive.
 func TimeSeriesRecoveredByProvince(province string) (*TimeSeries, error) {
 	return recoveredByProvinceOrState(province)
 }
@@ -134,7 +135,7 @@ func confirmedByProvinceOrState(ps string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range confirmed {
-		if ts.ProvinceState == ps {
+		if strings.EqualFold(ts.ProvinceState, ps) {
 			return ts, nil
 		}
 	}
@@ -149,7 +150,7 @@ func deathsByProvinceOrState(ps string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range deaths {
-		if ts.ProvinceState == ps {
+		if strings.EqualFold(ts.ProvinceState, ps) {
 			return ts, nil
 		}
 	}
@@ -164,7 +165,7 @@ func recoveredByProvinceOrState(ps string) (*TimeSeries, error) {
 	}
 
 	for _, ts := range recovered {
-		if ts.ProvinceState == ps {
+		if strings.EqualFold(ts.ProvinceState, ps) {
 			return ts, nil
 		}
 	}
