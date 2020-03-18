@@ -98,7 +98,7 @@ func dailyByProvinceOrState(ps string) ([]*Cases, error) {
 	return byPorS, nil
 }
 
-func getCSV(date time.Time) (*http.Response, error) {
+func getCSVForDate(date time.Time) (*http.Response, error) {
 	url := fmt.Sprintf(BaseDailyURL, date.Format("01-02-2006"))
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -112,13 +112,13 @@ func getCSV(date time.Time) (*http.Response, error) {
 func getCases() ([]*Cases, error) {
 	date := time.Now()
 
-	csv, err := getCSV(date)
+	csv, err := getCSVForDate(date)
 	if err != nil {
 		return nil, err
 	}
 	if csv.StatusCode == http.StatusNotFound {
 		date = date.AddDate(0, 0, -1)
-		csv, err = getCSV(date)
+		csv, err = getCSVForDate(date)
 		if err != nil {
 			return nil, err
 		}
