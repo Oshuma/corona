@@ -3,5 +3,5 @@ package corona
 
 const (
 	// Version is the library version.
-	Version = "0.3.0"
+	Version = "0.3.1"
 )
