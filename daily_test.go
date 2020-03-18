@@ -35,6 +35,18 @@ func TestDailyByCountry(t *testing.T) {
 	}
 }
 
+func TestDailyByCountryInsensitive(t *testing.T) {
+	cases, err := DailyByCountry("us")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c := cases[0]
+	if c.CountryRegion != "US" {
+		t.Fatalf("wrong country loaded: %s", c.CountryRegion)
+	}
+}
+
 func TestDailyByCountryNotFound(t *testing.T) {
 	_, err := DailyByCountry("foo")
 	if err != ErrorNoCasesFound {
@@ -53,6 +65,17 @@ func TestDailyByState(t *testing.T) {
 	}
 }
 
+func TestDailyByStateInsensitive(t *testing.T) {
+	cases, err := DailyByState("south carolina")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if cases.ProvinceState != "South Carolina" {
+		t.Fatalf("wrong state loaded: %s", cases.ProvinceState)
+	}
+}
+
 func TestDailyByStateNotFound(t *testing.T) {
 	_, err := DailyByState("foo")
 	if err != ErrorNoCasesFound {
@@ -62,6 +85,17 @@ func TestDailyByStateNotFound(t *testing.T) {
 
 func TestDailyByProvince(t *testing.T) {
 	cases, err := DailyByProvince("Hubei")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if cases.ProvinceState != "Hubei" {
+		t.Fatalf("wrong province loaded: %s", cases.ProvinceState)
+	}
+}
+
+func TestDailyByProvinceInsensitive(t *testing.T) {
+	cases, err := DailyByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}

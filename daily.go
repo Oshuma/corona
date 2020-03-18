@@ -3,6 +3,7 @@ package corona
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gocarina/gocsv"
@@ -56,7 +57,7 @@ func DailyByCountry(country string) ([]*Cases, error) {
 
 	byCountry := []*Cases{}
 	for _, c := range cases {
-		if c.CountryRegion == country {
+		if strings.EqualFold(c.CountryRegion, country) {
 			byCountry = append(byCountry, c)
 		}
 	}
@@ -84,18 +85,13 @@ func dailyByProvinceOrState(ps string) (*Cases, error) {
 		return nil, err
 	}
 
-	byPorS := []*Cases{}
 	for _, c := range cases {
-		if c.ProvinceState == ps {
-			byPorS = append(byPorS, c)
+		if strings.EqualFold(c.ProvinceState, ps) {
+			return c, nil
 		}
 	}
 
-	if len(byPorS) == 0 {
-		return nil, ErrorNoCasesFound
-	}
-
-	return byPorS, nil
+	return nil, ErrorNoCasesFound
 }
 
 func getCSVForDate(date time.Time) (*http.Response, error) {
