@@ -69,16 +69,16 @@ func DailyByCountry(country string) ([]*Cases, error) {
 }
 
 // DailyByState returns all known cases by state.
-func DailyByState(state string) ([]*Cases, error) {
+func DailyByState(state string) (*Cases, error) {
 	return dailyByProvinceOrState(state)
 }
 
 // DailyByProvince returns all known cases by province.
-func DailyByProvince(province string) ([]*Cases, error) {
+func DailyByProvince(province string) (*Cases, error) {
 	return dailyByProvinceOrState(province)
 }
 
-func dailyByProvinceOrState(ps string) ([]*Cases, error) {
+func dailyByProvinceOrState(ps string) (*Cases, error) {
 	cases, err := getCases()
 	if err != nil {
 		return nil, err

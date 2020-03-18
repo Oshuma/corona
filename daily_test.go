@@ -22,7 +22,7 @@ func TestDailyWorldwide(t *testing.T) {
 func TestDailyByCountry(t *testing.T) {
 	cases, err := DailyByCountry("US")
 	if err != nil {
-		t.Fatalf("DailyByCountry(): %s", err)
+		t.Fatal(err)
 	}
 
 	if len(cases) == 0 {
@@ -48,9 +48,8 @@ func TestDailyByState(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	c := cases[0]
-	if c.ProvinceState != "South Carolina" {
-		t.Fatalf("wrong state loaded: %s", c.ProvinceState)
+	if cases.ProvinceState != "South Carolina" {
+		t.Fatalf("wrong state loaded: %s", cases.ProvinceState)
 	}
 }
 
@@ -67,9 +66,8 @@ func TestDailyByProvince(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	c := cases[0]
-	if c.ProvinceState != "Hubei" {
-		t.Fatalf("wrong province loaded: %s", c.ProvinceState)
+	if cases.ProvinceState != "Hubei" {
+		t.Fatalf("wrong province loaded: %s", cases.ProvinceState)
 	}
 }
 
