@@ -16,24 +16,28 @@ func TestTimeSeriesConfirmed(t *testing.T) {
 }
 
 func TestTimeSeriesConfirmedByCountry(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByCountry("US")
+	all, err := TimeSeriesConfirmedByCountry("US")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
 func TestTimeSeriesConfirmedByCountryInsensitive(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByCountry("us")
+	all, err := TimeSeriesConfirmedByCountry("us")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
@@ -45,24 +49,28 @@ func TestTimeSeriesConfirmedByCountryNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesConfirmedByState(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByState("South Carolina")
+	all, err := TimeSeriesConfirmedByState("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong state loaded")
+		}
 	}
 }
 
 func TestTimeSeriesConfirmedByStateInsensitive(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByState("south carolina")
+	all, err := TimeSeriesConfirmedByState("south carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
@@ -74,24 +82,28 @@ func TestTimeSeriesConfirmedByStateNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesConfirmedByProvince(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByProvince("Hubei")
+	all, err := TimeSeriesConfirmedByProvince("Hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
 func TestTimeSeriesConfirmedByProvinceInsensitive(t *testing.T) {
-	ts, err := TimeSeriesConfirmedByProvince("hubei")
+	all, err := TimeSeriesConfirmedByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
@@ -114,24 +126,28 @@ func TestTimeSeriesDeaths(t *testing.T) {
 }
 
 func TestTimeSeriesDeathsByCountry(t *testing.T) {
-	ts, err := TimeSeriesDeathsByCountry("US")
+	all, err := TimeSeriesDeathsByCountry("US")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
 func TestTimeSeriesDeathsByCountryInsensitive(t *testing.T) {
-	ts, err := TimeSeriesDeathsByCountry("us")
+	all, err := TimeSeriesDeathsByCountry("us")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
@@ -143,24 +159,28 @@ func TestTimeSeriesDeathsByCountryNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesDeathsByState(t *testing.T) {
-	ts, err := TimeSeriesDeathsByState("South Carolina")
+	all, err := TimeSeriesDeathsByState("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong state loaded")
+		}
 	}
 }
 
 func TestTimeSeriesDeathsByStateInsensitive(t *testing.T) {
-	ts, err := TimeSeriesDeathsByState("south carolina")
+	all, err := TimeSeriesDeathsByState("south carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong state loaded")
+		}
 	}
 }
 
@@ -172,24 +192,28 @@ func TestTimeSeriesDeathsByStateNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesDeathsByProvince(t *testing.T) {
-	ts, err := TimeSeriesDeathsByProvince("Hubei")
+	all, err := TimeSeriesDeathsByProvince("Hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong province loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong province loaded")
+		}
 	}
 }
 
 func TestTimeSeriesDeathsByProvinceInsensitive(t *testing.T) {
-	ts, err := TimeSeriesDeathsByProvince("hubei")
+	all, err := TimeSeriesDeathsByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong province loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong province loaded")
+		}
 	}
 }
 
@@ -212,24 +236,28 @@ func TestTimeSeriesRecovered(t *testing.T) {
 }
 
 func TestTimeSeriesRecoveredByCountry(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByCountry("US")
+	all, err := TimeSeriesRecoveredByCountry("US")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 
 func TestTimeSeriesRecoveredByCountryInsensitive(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByCountry("us")
+	all, err := TimeSeriesRecoveredByCountry("us")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.CountryRegion != "US" {
-		t.Fatal("wrong country loaded")
+	for _, ts := range all {
+		if ts.CountryRegion != "US" {
+			t.Fatal("wrong country loaded")
+		}
 	}
 }
 func TestTimeSeriesRecoveredByCountryNotFound(t *testing.T) {
@@ -240,24 +268,28 @@ func TestTimeSeriesRecoveredByCountryNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesRecoveredByState(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByState("South Carolina")
+	all, err := TimeSeriesRecoveredByState("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong state loaded")
+		}
 	}
 }
 
 func TestTimeSeriesRecoveredByStateInsensitive(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByState("south carolina")
+	all, err := TimeSeriesRecoveredByState("south carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "South Carolina" {
-		t.Fatal("wrong state loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "South Carolina" {
+			t.Fatal("wrong state loaded")
+		}
 	}
 }
 
@@ -269,24 +301,28 @@ func TestTimeSeriesRecoveredByStateNotFound(t *testing.T) {
 }
 
 func TestTimeSeriesRecoveredByProvince(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByProvince("Hubei")
+	all, err := TimeSeriesRecoveredByProvince("Hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong province loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong province loaded")
+		}
 	}
 }
 
 func TestTimeSeriesRecoveredByProvinceInsensitive(t *testing.T) {
-	ts, err := TimeSeriesRecoveredByProvince("hubei")
+	all, err := TimeSeriesRecoveredByProvince("hubei")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if ts.ProvinceState != "Hubei" {
-		t.Fatal("wrong province loaded")
+	for _, ts := range all {
+		if ts.ProvinceState != "Hubei" {
+			t.Fatal("wrong province loaded")
+		}
 	}
 }
 

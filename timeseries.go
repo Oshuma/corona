@@ -41,28 +41,34 @@ func TimeSeriesConfirmed() ([]*TimeSeries, error) {
 }
 
 // TimeSeriesConfirmedByCountry returns a time series of all confirmed cases in the given country; case insensitive.
-func TimeSeriesConfirmedByCountry(country string) (*TimeSeries, error) {
-	confirmed, err := timeSeriesForURL(ConfirmedURL)
+func TimeSeriesConfirmedByCountry(country string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(ConfirmedURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range confirmed {
+	confirmed := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.CountryRegion, country) {
-			return ts, nil
+			confirmed = append(confirmed, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(confirmed) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return confirmed, nil
 }
 
 // TimeSeriesConfirmedByState returns a time series of all confirmed cases in the given state; case insensitive.
-func TimeSeriesConfirmedByState(state string) (*TimeSeries, error) {
+func TimeSeriesConfirmedByState(state string) ([]*TimeSeries, error) {
 	return confirmedByProvinceOrState(state)
 }
 
 // TimeSeriesConfirmedByProvince returns a time series of all confirmed cases in the given province; case insensitive.
-func TimeSeriesConfirmedByProvince(province string) (*TimeSeries, error) {
+func TimeSeriesConfirmedByProvince(province string) ([]*TimeSeries, error) {
 	return confirmedByProvinceOrState(province)
 }
 
@@ -72,28 +78,34 @@ func TimeSeriesDeaths() ([]*TimeSeries, error) {
 }
 
 // TimeSeriesDeathsByCountry returns a time series of all deaths in the given country; case insensitive.
-func TimeSeriesDeathsByCountry(country string) (*TimeSeries, error) {
-	deaths, err := timeSeriesForURL(DeathsURL)
+func TimeSeriesDeathsByCountry(country string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(DeathsURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range deaths {
+	deaths := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.CountryRegion, country) {
-			return ts, nil
+			deaths = append(deaths, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(deaths) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return deaths, nil
 }
 
 // TimeSeriesDeathsByState returns a time series of all deaths in the given state; case insensitive.
-func TimeSeriesDeathsByState(state string) (*TimeSeries, error) {
+func TimeSeriesDeathsByState(state string) ([]*TimeSeries, error) {
 	return deathsByProvinceOrState(state)
 }
 
 // TimeSeriesDeathsByProvince returns a time series of all deaths in the given province; case insensitive.
-func TimeSeriesDeathsByProvince(province string) (*TimeSeries, error) {
+func TimeSeriesDeathsByProvince(province string) ([]*TimeSeries, error) {
 	return deathsByProvinceOrState(province)
 }
 
@@ -103,74 +115,98 @@ func TimeSeriesRecovered() ([]*TimeSeries, error) {
 }
 
 // TimeSeriesRecoveredByCountry returns a time series of all recovered cases in the given country; case insensitive.
-func TimeSeriesRecoveredByCountry(country string) (*TimeSeries, error) {
-	recovered, err := timeSeriesForURL(RecoveredURL)
+func TimeSeriesRecoveredByCountry(country string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(RecoveredURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range recovered {
+	recovered := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.CountryRegion, country) {
-			return ts, nil
+			recovered = append(recovered, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(recovered) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return recovered, nil
 }
 
 // TimeSeriesRecoveredByState returns a time series of all recovered cases in the given state; case insensitive.
-func TimeSeriesRecoveredByState(state string) (*TimeSeries, error) {
+func TimeSeriesRecoveredByState(state string) ([]*TimeSeries, error) {
 	return recoveredByProvinceOrState(state)
 }
 
 // TimeSeriesRecoveredByProvince returns a time series of all recovered cases in the given province; case insensitive.
-func TimeSeriesRecoveredByProvince(province string) (*TimeSeries, error) {
+func TimeSeriesRecoveredByProvince(province string) ([]*TimeSeries, error) {
 	return recoveredByProvinceOrState(province)
 }
 
-func confirmedByProvinceOrState(ps string) (*TimeSeries, error) {
-	confirmed, err := timeSeriesForURL(ConfirmedURL)
+func confirmedByProvinceOrState(ps string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(ConfirmedURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range confirmed {
+	confirmed := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.ProvinceState, ps) {
-			return ts, nil
+			confirmed = append(confirmed, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(confirmed) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return confirmed, nil
 }
 
-func deathsByProvinceOrState(ps string) (*TimeSeries, error) {
-	deaths, err := timeSeriesForURL(DeathsURL)
+func deathsByProvinceOrState(ps string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(DeathsURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range deaths {
+	deaths := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.ProvinceState, ps) {
-			return ts, nil
+			deaths = append(deaths, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(deaths) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return deaths, nil
 }
 
-func recoveredByProvinceOrState(ps string) (*TimeSeries, error) {
-	recovered, err := timeSeriesForURL(RecoveredURL)
+func recoveredByProvinceOrState(ps string) ([]*TimeSeries, error) {
+	all, err := timeSeriesForURL(RecoveredURL)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, ts := range recovered {
+	recovered := []*TimeSeries{}
+
+	for _, ts := range all {
 		if strings.EqualFold(ts.ProvinceState, ps) {
-			return ts, nil
+			recovered = append(recovered, ts)
 		}
 	}
 
-	return nil, ErrorNoCasesFound
+	if len(recovered) == 0 {
+		return nil, ErrorNoCasesFound
+	}
+
+	return recovered, nil
 }
 
 func timeSeriesForURL(url string) ([]*TimeSeries, error) {
