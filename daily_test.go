@@ -2,11 +2,9 @@ package corona
 
 import (
 	"testing"
-
-	"reflect"
 )
 
-// TODO: Load CSV from local file.
+// TODO: Load JSON from local file.
 
 func TestDailyWorldwide(t *testing.T) {
 	cases, err := DailyWorldwide()
@@ -30,8 +28,8 @@ func TestDailyByCountry(t *testing.T) {
 	}
 
 	c := cases[0]
-	if c.CountryRegion != "US" {
-		t.Fatalf("wrong country loaded: %s", c.CountryRegion)
+	if c.CountryCode != "US" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
 	}
 }
 
@@ -42,8 +40,8 @@ func TestDailyByCountryInsensitive(t *testing.T) {
 	}
 
 	c := cases[0]
-	if c.CountryRegion != "US" {
-		t.Fatalf("wrong country loaded: %s", c.CountryRegion)
+	if c.CountryCode != "US" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
 	}
 }
 
@@ -54,77 +52,53 @@ func TestDailyByCountryNotFound(t *testing.T) {
 	}
 }
 
-func TestDailyByState(t *testing.T) {
-	cases, err := DailyByState("South Carolina")
+func TestDailyByRegion(t *testing.T) {
+	cases, err := DailyByRegion("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if cases.ProvinceState != "South Carolina" {
-		t.Fatalf("wrong state loaded: %s", cases.ProvinceState)
+	if cases.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", cases.RegionName)
 	}
 }
 
-func TestDailyByStateInsensitive(t *testing.T) {
-	cases, err := DailyByState("south carolina")
+func TestDailyByRegionInsensitive(t *testing.T) {
+	cases, err := DailyByRegion("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if cases.ProvinceState != "South Carolina" {
-		t.Fatalf("wrong state loaded: %s", cases.ProvinceState)
+	if cases.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", cases.RegionName)
 	}
 }
 
-func TestDailyByStateNotFound(t *testing.T) {
-	_, err := DailyByState("foo")
+func TestDailyByRegionNotFound(t *testing.T) {
+	_, err := DailyByRegion("foo")
 	if err != ErrorNoCasesFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
 
-func TestDailyByProvince(t *testing.T) {
-	cases, err := DailyByProvince("Hubei")
+func TestDailyByRegionCode(t *testing.T) {
+	cases, err := DailyByRegion("SC")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if cases.ProvinceState != "Hubei" {
-		t.Fatalf("wrong province loaded: %s", cases.ProvinceState)
+	if cases.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", cases.RegionName)
 	}
 }
 
-func TestDailyByProvinceInsensitive(t *testing.T) {
-	cases, err := DailyByProvince("hubei")
+func TestDailyByRegionCodeInsensitive(t *testing.T) {
+	cases, err := DailyByRegion("sc")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if cases.ProvinceState != "Hubei" {
-		t.Fatalf("wrong province loaded: %s", cases.ProvinceState)
-	}
-}
-
-func TestDailyByProvinceNotFound(t *testing.T) {
-	_, err := DailyByProvince("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestParseLastUpdate(t *testing.T) {
-	cases, err := DailyWorldwide()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	c := cases[0]
-	instance := reflect.TypeOf(c.LastUpdate)
-	if instance.Name() != "LastUpdate" {
-		t.Fatal("could not parse LastUpdate")
-	}
-
-	if c.LastUpdate.IsZero() {
-		t.Fatal("error parsing LastUpdate")
+	if cases.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", cases.RegionName)
 	}
 }

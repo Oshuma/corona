@@ -1,42 +1,16 @@
 package corona
 
 import (
-	"fmt"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
-
-	"github.com/gocarina/gocsv"
 )
 
 const (
-	// BaseDailyURL is the URL where data is pulled; date should be formatted as: MM-DD-YYYY
-	BaseDailyURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s.csv"
+	// DailyURL is the URL where data is pulled.
+	DailyURL = "https://open-covid-19.github.io/data/data_latest.json"
 )
-
-// LastUpdate is used as a time.Time wrapper to parse the LastUpdate CSV field.
-type LastUpdate struct {
-	time.Time
-}
-
-// UnmarshalCSV is used to convert the LastUpdate CSV field to a time.Time.
-func (lu *LastUpdate) UnmarshalCSV(csv string) error {
-	t, err := time.Parse("2006-01-02T15:04:05", csv)
-	lu.Time = t.UTC()
-	return err
-}
-
-// Cases stores case information.
-type Cases struct {
-	ProvinceState string     `csv:"Province/State"`
-	CountryRegion string     `csv:"Country/Region"`
-	LastUpdate    LastUpdate `csv:"Last Update"`
-	Confirmed     int        `csv:"Confirmed"`
-	Deaths        int        `csv:"Deaths"`
-	Recovered     int        `csv:"Recovered"`
-	Latitude      float64    `csv:"Latitude"`
-	Longitude     float64    `csv:"Longitude"`
-}
 
 // DailyWorldwide returns all known worldwide cases.
 func DailyWorldwide() ([]*Cases, error) {
@@ -57,7 +31,7 @@ func DailyByCountry(country string) ([]*Cases, error) {
 
 	byCountry := []*Cases{}
 	for _, c := range cases {
-		if strings.EqualFold(c.CountryRegion, country) {
+		if strings.EqualFold(c.CountryName, country) || strings.EqualFold(c.CountryCode, country) {
 			byCountry = append(byCountry, c)
 		}
 	}
@@ -69,24 +43,15 @@ func DailyByCountry(country string) ([]*Cases, error) {
 	return byCountry, nil
 }
 
-// DailyByState returns all known cases by state; case insensitive.
-func DailyByState(state string) (*Cases, error) {
-	return dailyByProvinceOrState(state)
-}
-
-// DailyByProvince returns all known cases by province; case insensitive.
-func DailyByProvince(province string) (*Cases, error) {
-	return dailyByProvinceOrState(province)
-}
-
-func dailyByProvinceOrState(ps string) (*Cases, error) {
+// DailyByRegion returns all known cases by region (province/state); case insensitive.
+func DailyByRegion(region string) (*Cases, error) {
 	cases, err := getCases()
 	if err != nil {
 		return nil, err
 	}
 
 	for _, c := range cases {
-		if strings.EqualFold(c.ProvinceState, ps) {
+		if strings.EqualFold(c.RegionName, region) || strings.EqualFold(c.RegionCode, region) {
 			return c, nil
 		}
 	}
@@ -94,35 +59,25 @@ func dailyByProvinceOrState(ps string) (*Cases, error) {
 	return nil, ErrorNoCasesFound
 }
 
-func getCSVForDate(date time.Time) (*http.Response, error) {
-	url := fmt.Sprintf(BaseDailyURL, date.Format("01-02-2006"))
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return http.DefaultClient.Do(req)
-}
-
 func getCases() ([]*Cases, error) {
-	date := time.Now()
-
-	csv, err := getCSVForDate(date)
+	req, err := http.NewRequest("GET", DailyURL, nil)
 	if err != nil {
 		return nil, err
 	}
-	if csv.StatusCode == http.StatusNotFound {
-		date = date.AddDate(0, 0, -1)
-		csv, err = getCSVForDate(date)
-		if err != nil {
-			return nil, err
-		}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
 	}
-	defer csv.Body.Close()
+
+	content, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
 
 	cases := []*Cases{}
-	err = gocsv.Unmarshal(csv.Body, &cases)
+	err = json.Unmarshal(content, &cases)
 	if err != nil {
 		return nil, err
 	}
