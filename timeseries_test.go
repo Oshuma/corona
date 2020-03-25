@@ -4,8 +4,8 @@ import (
 	"testing"
 )
 
-func TestTimeSeriesConfirmed(t *testing.T) {
-	ts, err := TimeSeriesConfirmed()
+func TestTimeSeries(t *testing.T) {
+	ts, err := TimeSeries()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -15,107 +15,8 @@ func TestTimeSeriesConfirmed(t *testing.T) {
 	}
 }
 
-func TestTimeSeriesConfirmedByCountry(t *testing.T) {
-	all, err := TimeSeriesConfirmedByCountry("US")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByCountryInsensitive(t *testing.T) {
-	all, err := TimeSeriesConfirmedByCountry("us")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByCountryNotFound(t *testing.T) {
-	_, err := TimeSeriesConfirmedByCountry("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesConfirmedByState(t *testing.T) {
-	all, err := TimeSeriesConfirmedByState("South Carolina")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong state loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByStateInsensitive(t *testing.T) {
-	all, err := TimeSeriesConfirmedByState("south carolina")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByStateNotFound(t *testing.T) {
-	_, err := TimeSeriesConfirmedByState("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesConfirmedByProvince(t *testing.T) {
-	all, err := TimeSeriesConfirmedByProvince("Hubei")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByProvinceInsensitive(t *testing.T) {
-	all, err := TimeSeriesConfirmedByProvince("hubei")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesConfirmedByProvinceNotFound(t *testing.T) {
-	_, err := TimeSeriesConfirmedByProvince("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesDeaths(t *testing.T) {
-	ts, err := TimeSeriesDeaths()
+func TestTimeSeriesByCountry(t *testing.T) {
+	ts, err := TimeSeriesByCountry("United States of America")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -123,109 +24,15 @@ func TestTimeSeriesDeaths(t *testing.T) {
 	if len(ts) == 0 {
 		t.Fatal("no data loaded")
 	}
-}
 
-func TestTimeSeriesDeathsByCountry(t *testing.T) {
-	all, err := TimeSeriesDeathsByCountry("US")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
+	c := ts[0]
+	if c.CountryName != "United States of America" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
 	}
 }
 
-func TestTimeSeriesDeathsByCountryInsensitive(t *testing.T) {
-	all, err := TimeSeriesDeathsByCountry("us")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
-	}
-}
-
-func TestTimeSeriesDeathsByCountryNotFound(t *testing.T) {
-	_, err := TimeSeriesDeathsByCountry("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesDeathsByState(t *testing.T) {
-	all, err := TimeSeriesDeathsByState("South Carolina")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong state loaded")
-		}
-	}
-}
-
-func TestTimeSeriesDeathsByStateInsensitive(t *testing.T) {
-	all, err := TimeSeriesDeathsByState("south carolina")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong state loaded")
-		}
-	}
-}
-
-func TestTimeSeriesDeathsByStateNotFound(t *testing.T) {
-	_, err := TimeSeriesDeathsByState("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesDeathsByProvince(t *testing.T) {
-	all, err := TimeSeriesDeathsByProvince("Hubei")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong province loaded")
-		}
-	}
-}
-
-func TestTimeSeriesDeathsByProvinceInsensitive(t *testing.T) {
-	all, err := TimeSeriesDeathsByProvince("hubei")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong province loaded")
-		}
-	}
-}
-
-func TestTimeSeriesDeathsByProvinceNotFound(t *testing.T) {
-	_, err := TimeSeriesDeathsByProvince("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesRecovered(t *testing.T) {
-	ts, err := TimeSeriesRecovered()
+func TestTimeSeriesByCountryInsensitive(t *testing.T) {
+	ts, err := TimeSeriesByCountry("UnItEd StAtEs Of aMeRiCa")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -233,116 +40,73 @@ func TestTimeSeriesRecovered(t *testing.T) {
 	if len(ts) == 0 {
 		t.Fatal("no data loaded")
 	}
+
+	c := ts[0]
+	if c.CountryName != "United States of America" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
+	}
 }
 
-func TestTimeSeriesRecoveredByCountry(t *testing.T) {
-	all, err := TimeSeriesRecoveredByCountry("US")
+func TestTimeSeriesByCountryCode(t *testing.T) {
+	ts, err := TimeSeriesByCountry("US")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
+	if len(ts) == 0 {
+		t.Fatal("no data loaded")
+	}
+
+	c := ts[0]
+	if c.CountryName != "United States of America" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
 	}
 }
 
-func TestTimeSeriesRecoveredByCountryInsensitive(t *testing.T) {
-	all, err := TimeSeriesRecoveredByCountry("us")
+func TestTimeSeriesByCountryCodeInsensitive(t *testing.T) {
+	ts, err := TimeSeriesByCountry("Us")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, ts := range all {
-		if ts.CountryRegion != "US" {
-			t.Fatal("wrong country loaded")
-		}
+	if len(ts) == 0 {
+		t.Fatal("no data loaded")
 	}
-}
-func TestTimeSeriesRecoveredByCountryNotFound(t *testing.T) {
-	_, err := TimeSeriesRecoveredByCountry("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
+
+	c := ts[0]
+	if c.CountryName != "United States of America" {
+		t.Fatalf("wrong country loaded: %s", c.CountryName)
 	}
 }
 
-func TestTimeSeriesRecoveredByState(t *testing.T) {
-	all, err := TimeSeriesRecoveredByState("South Carolina")
+func TestTimeSeriesByRegion(t *testing.T) {
+	ts, err := TimeSeriesByRegion("South Carolina")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong state loaded")
-		}
+	if len(ts) == 0 {
+		t.Fatal("no data loaded")
+	}
+
+	c := ts[0]
+	if c.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", c.RegionName)
 	}
 }
 
-func TestTimeSeriesRecoveredByStateInsensitive(t *testing.T) {
-	all, err := TimeSeriesRecoveredByState("south carolina")
+func TestTimeSeriesByRegionInsensitive(t *testing.T) {
+	ts, err := TimeSeriesByRegion("SoUtH cArOlInA")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, ts := range all {
-		if ts.ProvinceState != "South Carolina" {
-			t.Fatal("wrong state loaded")
-		}
-	}
-}
-
-func TestTimeSeriesRecoveredByStateNotFound(t *testing.T) {
-	_, err := TimeSeriesRecoveredByState("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestTimeSeriesRecoveredByProvince(t *testing.T) {
-	all, err := TimeSeriesRecoveredByProvince("Hubei")
-	if err != nil {
-		t.Fatal(err)
+	if len(ts) == 0 {
+		t.Fatal("no data loaded")
 	}
 
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong province loaded")
-		}
-	}
-}
-
-func TestTimeSeriesRecoveredByProvinceInsensitive(t *testing.T) {
-	all, err := TimeSeriesRecoveredByProvince("hubei")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for _, ts := range all {
-		if ts.ProvinceState != "Hubei" {
-			t.Fatal("wrong province loaded")
-		}
-	}
-}
-
-func TestTimeSeriesRecoveredByProvinceNotFound(t *testing.T) {
-	_, err := TimeSeriesRecoveredByProvince("foo")
-	if err != ErrorNoCasesFound {
-		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestSortedDates(t *testing.T) {
-	all, err := TimeSeriesConfirmed()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ts := all[0]
-	d1 := ts.Dates[0]
-	d2 := ts.Dates[1]
-	if d2.Date.Before(d1.Date) {
-		t.Fatal("dates not sorted")
+	c := ts[0]
+	if c.RegionName != "South Carolina" {
+		t.Fatalf("wrong region loaded: %s", c.RegionName)
 	}
 }

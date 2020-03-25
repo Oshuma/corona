@@ -34,9 +34,13 @@ func TestDailyByCountry(t *testing.T) {
 }
 
 func TestDailyByCountryInsensitive(t *testing.T) {
-	cases, err := DailyByCountry("us")
+	cases, err := DailyByCountry("Us")
 	if err != nil {
 		t.Fatal(err)
+	}
+
+	if len(cases) == 0 {
+		t.Fatal("no cases loaded")
 	}
 
 	c := cases[0]
@@ -64,7 +68,7 @@ func TestDailyByRegion(t *testing.T) {
 }
 
 func TestDailyByRegionInsensitive(t *testing.T) {
-	cases, err := DailyByRegion("South Carolina")
+	cases, err := DailyByRegion("sOuTh CaRoLiNa")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -78,27 +82,5 @@ func TestDailyByRegionNotFound(t *testing.T) {
 	_, err := DailyByRegion("foo")
 	if err != ErrorNoCasesFound {
 		t.Fatalf("wrong error returned: %s", err)
-	}
-}
-
-func TestDailyByRegionCode(t *testing.T) {
-	cases, err := DailyByRegion("SC")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if cases.RegionName != "South Carolina" {
-		t.Fatalf("wrong region loaded: %s", cases.RegionName)
-	}
-}
-
-func TestDailyByRegionCodeInsensitive(t *testing.T) {
-	cases, err := DailyByRegion("sc")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if cases.RegionName != "South Carolina" {
-		t.Fatalf("wrong region loaded: %s", cases.RegionName)
 	}
 }
