@@ -1,7 +1,7 @@
-// Package corona provides data from the Novel Coronavirus (COVID-19) Cases, provided by JHU CSSE.
+// Package corona provides data from the Novel Coronavirus (COVID-19) Cases; data collected from here: https://github.com/open-covid-19/data
 package corona
 
 const (
 	// Version is the library version.
-	Version = "0.3.1"
+	Version = "0.4.0"
 )
