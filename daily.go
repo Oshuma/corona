@@ -26,6 +26,7 @@ func DailyByCountryName(country string) ([]*Cases, error) {
 	return filterCountryName(cases, country)
 }
 
+// DailyByCountryCode returns all known cases by country code; case insensitive.
 func DailyByCountryCode(code string) ([]*Cases, error) {
 	cases, err := DailyWorldwide()
 	if err != nil {
@@ -51,6 +52,7 @@ func DailyByRegionName(region string) (*Cases, error) {
 	return nil, ErrorNoCasesFound
 }
 
+// DailyByRegionCode returns all known cases by region code; case insensitive.
 func DailyByRegionCode(code string) (*Cases, error) {
 	cases, err := DailyWorldwide()
 	if err != nil {

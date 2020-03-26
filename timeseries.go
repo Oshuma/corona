@@ -20,6 +20,7 @@ func TimeSeriesByCountryName(country string) ([]*Cases, error) {
 	return filterCountryName(cases, country)
 }
 
+// TimeSeriesByCountryCode returns a time series of all reported cases in the given country code.
 func TimeSeriesByCountryCode(code string) ([]*Cases, error) {
 	cases, err := TimeSeries()
 	if err != nil {
@@ -39,6 +40,7 @@ func TimeSeriesByRegionName(region string) ([]*Cases, error) {
 	return filterRegionName(cases, region)
 }
 
+// TimeSeriesByRegionCode returns a time series of all reported cases in the given region (province/state) code.
 func TimeSeriesByRegionCode(code string) ([]*Cases, error) {
 	cases, err := TimeSeries()
 	if err != nil {

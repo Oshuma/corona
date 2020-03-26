@@ -21,16 +21,19 @@ type Cases struct {
 	Longitude  float64   `json:"Longitude"`
 }
 
+// Country stores country information.
 type Country struct {
 	Code string
 	Name string
 }
 
+// Region stores province/state information.
 type Region struct {
 	Code string
 	Name string
 }
 
+// UnmarshalJSON implements json.Unmarshaler to parse the data response.
 func (c *Cases) UnmarshalJSON(input []byte) error {
 	if c.Country == nil {
 		c.Country = &Country{}
