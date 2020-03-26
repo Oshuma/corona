@@ -1,5 +1,7 @@
 package corona
 
+// TODO: The region funcs probably need to be scoped by country.
+
 import (
 	"strings"
 )
@@ -11,33 +13,52 @@ const (
 
 // DailyWorldwide returns all known worldwide cases.
 func DailyWorldwide() ([]*Cases, error) {
-	cases, err := getCases(DailyURL)
+	return getCases(DailyURL)
+}
+
+// DailyByCountryName returns all known cases by country; case insensitive.
+func DailyByCountryName(country string) ([]*Cases, error) {
+	cases, err := DailyWorldwide()
 	if err != nil {
 		return nil, err
 	}
 
-	return cases, nil
+	return filterCountryName(cases, country)
 }
 
-// DailyByCountry returns all known cases by country; case insensitive.
-func DailyByCountry(country string) ([]*Cases, error) {
-	cases, err := getCases(DailyURL)
+func DailyByCountryCode(code string) ([]*Cases, error) {
+	cases, err := DailyWorldwide()
 	if err != nil {
 		return nil, err
 	}
 
-	return filterCountry(cases, country)
+	return filterCountryCode(cases, code)
 }
 
-// DailyByRegion returns all known cases by region (province/state); case insensitive.
-func DailyByRegion(region string) (*Cases, error) {
-	cases, err := getCases(DailyURL)
+// DailyByRegionName returns all known cases by region (province/state); case insensitive.
+func DailyByRegionName(region string) (*Cases, error) {
+	cases, err := DailyWorldwide()
 	if err != nil {
 		return nil, err
 	}
 
 	for _, c := range cases {
-		if strings.EqualFold(c.RegionName, region) {
+		if strings.EqualFold(c.Region.Name, region) {
+			return c, nil
+		}
+	}
+
+	return nil, ErrorNoCasesFound
+}
+
+func DailyByRegionCode(code string) (*Cases, error) {
+	cases, err := DailyWorldwide()
+	if err != nil {
+		return nil, err
+	}
+
+	for _, c := range cases {
+		if strings.EqualFold(c.Region.Code, code) {
 			return c, nil
 		}
 	}

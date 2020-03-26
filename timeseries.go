@@ -1,9 +1,5 @@
 package corona
 
-import (
-	"strings"
-)
-
 const (
 	// HistoricalURL is the URL where historical data is pulled.
 	HistoricalURL = "https://open-covid-19.github.io/data/data.json"
@@ -14,34 +10,40 @@ func TimeSeries() ([]*Cases, error) {
 	return getCases(HistoricalURL)
 }
 
-// TimeSeriesByCountry returns a time series of all reported cases in the given country.
-func TimeSeriesByCountry(country string) ([]*Cases, error) {
+// TimeSeriesByCountryName returns a time series of all reported cases in the given country.
+func TimeSeriesByCountryName(country string) ([]*Cases, error) {
 	cases, err := TimeSeries()
 	if err != nil {
 		return nil, err
 	}
 
-	return filterCountry(cases, country)
+	return filterCountryName(cases, country)
 }
 
-// TimeSeriesByRegion returns a time series of all reported cases in the given region (province/state).
-func TimeSeriesByRegion(region string) ([]*Cases, error) {
+func TimeSeriesByCountryCode(code string) ([]*Cases, error) {
 	cases, err := TimeSeries()
 	if err != nil {
 		return nil, err
 	}
 
-	byRegion := []*Cases{}
+	return filterCountryCode(cases, code)
+}
 
-	for _, c := range cases {
-		if strings.EqualFold(c.RegionName, region) {
-			byRegion = append(byRegion, c)
-		}
+// TimeSeriesByRegionName returns a time series of all reported cases in the given region (province/state).
+func TimeSeriesByRegionName(region string) ([]*Cases, error) {
+	cases, err := TimeSeries()
+	if err != nil {
+		return nil, err
 	}
 
-	if len(byRegion) == 0 {
-		return nil, ErrorNoCasesFound
+	return filterRegionName(cases, region)
+}
+
+func TimeSeriesByRegionCode(code string) ([]*Cases, error) {
+	cases, err := TimeSeries()
+	if err != nil {
+		return nil, err
 	}
 
-	return byRegion, nil
+	return filterRegionCode(cases, code)
 }
