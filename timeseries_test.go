@@ -49,7 +49,7 @@ func TestTimeSeriesByCountryNameInsensitive(t *testing.T) {
 
 func TestTimeSeriesByCountryNameNotFound(t *testing.T) {
 	_, err := TimeSeriesByCountryName("foo")
-	if err != ErrorNoCasesFound {
+	if err != ErrorNoReportsFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
@@ -88,7 +88,7 @@ func TestTimeSeriesByCountryCodeInsensitive(t *testing.T) {
 
 func TestTimeSeriesByCountryCodeNotFound(t *testing.T) {
 	_, err := TimeSeriesByCountryCode("foo")
-	if err != ErrorNoCasesFound {
+	if err != ErrorNoReportsFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
@@ -127,7 +127,7 @@ func TestTimeSeriesByRegionNameInsensitive(t *testing.T) {
 
 func TestTimeSeriesByRegionNameNotFound(t *testing.T) {
 	_, err := TimeSeriesByRegionName("foo")
-	if err != ErrorNoCasesFound {
+	if err != ErrorNoReportsFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
@@ -166,7 +166,7 @@ func TestTimeSeriesByRegionCodeInsensitive(t *testing.T) {
 
 func TestTimeSeriesByRegionCodeNotFound(t *testing.T) {
 	_, err := TimeSeriesByRegionCode("foo")
-	if err != ErrorNoCasesFound {
+	if err != ErrorNoReportsFound {
 		t.Fatalf("wrong error returned: %s", err)
 	}
 }
