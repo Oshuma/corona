@@ -8,24 +8,26 @@ import (
 	"time"
 )
 
-var casesJSON = []byte(`
+var reportJSON = []byte(`
 	{
 		"Date": "2020-03-24",
+		"Key": "US_SC",
 		"CountryCode": "US",
 		"CountryName": "United States of America",
 		"RegionCode": "SC",
 		"RegionName": "South Carolina",
-		"Confirmed": "298",
-		"Deaths": "5",
+		"Confirmed": 298,
+		"Deaths": 5,
 		"Latitude": "33.8569",
 		"Longitude": "-80.945",
-		"Population": "12345"
+		"Population": 12345
 	}
 `)
 
-var casesJSONNull = []byte(`
+var reportJSONNull = []byte(`
 	{
 		"Date": null,
+		"Key": null,
 		"CountryCode": null,
 		"CountryName": null,
 		"RegionCode": null,
@@ -40,7 +42,7 @@ var casesJSONNull = []byte(`
 
 func TestParse(t *testing.T) {
 	var r Report
-	err := json.Unmarshal(casesJSON, &r)
+	err := json.Unmarshal(reportJSON, &r)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -62,6 +64,7 @@ func TestParse(t *testing.T) {
 	}
 
 	if r.Confirmed != 298 {
+		t.Fatalf("%+v", r)
 		t.Fatalf("error parsing Confirmed: %+v", r.Confirmed)
 	}
 
@@ -84,7 +87,7 @@ func TestParse(t *testing.T) {
 
 func TestParseNull(t *testing.T) {
 	var r Report
-	err := json.Unmarshal(casesJSONNull, &r)
+	err := json.Unmarshal(reportJSONNull, &r)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -92,7 +95,7 @@ func TestParseNull(t *testing.T) {
 
 func TestParseDate(t *testing.T) {
 	var r Report
-	err := json.Unmarshal(casesJSON, &r)
+	err := json.Unmarshal(reportJSON, &r)
 	if err != nil {
 		t.Fatal(err)
 	}

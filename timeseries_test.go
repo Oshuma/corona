@@ -25,9 +25,12 @@ func TestTimeSeriesByCountryName(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Country.Name != "United States of America" {
-		t.Fatalf("wrong country loaded: %s", c.Country.Name)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Country.Name != "United States of America" {
+				t.Fatalf("wrong country loaded: %s", r.Country.Name)
+			}
+		}
 	}
 }
 
@@ -41,9 +44,12 @@ func TestTimeSeriesByCountryNameInsensitive(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Country.Name != "United States of America" {
-		t.Fatalf("wrong country loaded: %s", c.Country.Name)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Country.Name != "United States of America" {
+				t.Fatalf("wrong country loaded: %s", r.Country.Name)
+			}
+		}
 	}
 }
 
@@ -64,9 +70,12 @@ func TestTimeSeriesByCountryCode(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Country.Code != "US" {
-		t.Fatalf("wrong country loaded: %s", c.Country.Code)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Country.Code != "US" {
+				t.Fatalf("wrong country loaded: %s", r.Country.Code)
+			}
+		}
 	}
 }
 
@@ -80,9 +89,12 @@ func TestTimeSeriesByCountryCodeInsensitive(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Country.Code != "US" {
-		t.Fatalf("wrong country loaded: %s", c.Country.Code)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Country.Code != "US" {
+				t.Fatalf("wrong country loaded: %s", r.Country.Code)
+			}
+		}
 	}
 }
 
@@ -103,9 +115,12 @@ func TestTimeSeriesByRegionName(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Region.Name != "South Carolina" {
-		t.Fatalf("wrong region loaded: %s", c.Region.Name)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Region.Name != "South Carolina" {
+				t.Fatalf("wrong region loaded: %s", r.Region.Name)
+			}
+		}
 	}
 }
 
@@ -119,9 +134,12 @@ func TestTimeSeriesByRegionNameInsensitive(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Region.Name != "South Carolina" {
-		t.Fatalf("wrong region loaded: %s", c.Region.Name)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Region.Name != "South Carolina" {
+				t.Fatalf("wrong region loaded: %s", r.Region.Name)
+			}
+		}
 	}
 }
 
@@ -142,9 +160,12 @@ func TestTimeSeriesByRegionCode(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Region.Code != "NY" {
-		t.Fatalf("wrong region loaded: %s", c.Region.Code)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Region.Code != "NY" {
+				t.Fatalf("wrong region loaded: %s", r.Region.Code)
+			}
+		}
 	}
 }
 
@@ -158,9 +179,12 @@ func TestTimeSeriesByRegionCodeInsensitive(t *testing.T) {
 		t.Fatal("no data loaded")
 	}
 
-	c := ts[0]
-	if c.Region.Code != "NY" {
-		t.Fatalf("wrong region loaded: %s", c.Region.Code)
+	for _, cases := range ts {
+		for _, r := range cases {
+			if r.Region.Code != "NY" {
+				t.Fatalf("wrong region loaded: %s", r.Region.Code)
+			}
+		}
 	}
 }
 

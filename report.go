@@ -11,11 +11,12 @@ import (
 // Report stores reported case information.
 type Report struct {
 	Date       time.Time `json:"Date"`
+	Key        string    `json:"Key"`
 	Country    *Country  `json:"-"`
 	Region     *Region   `json:"-"`
-	Confirmed  int       `json:"Confirmed"`
-	Deaths     int       `json:"Deaths"`
-	Population int       `json:"Population"`
+	Confirmed  float64   `json:"Confirmed"`
+	Deaths     float64   `json:"Deaths"`
+	Population float64   `json:"Population"`
 	Latitude   float64   `json:"Latitude"`
 	Longitude  float64   `json:"Longitude"`
 }
@@ -42,7 +43,7 @@ func (c *Report) UnmarshalJSON(input []byte) error {
 		c.Region = &Region{}
 	}
 
-	var data map[string]string
+	var data map[string]interface{}
 	err := json.Unmarshal(input, &data)
 	if err != nil {
 		return err
@@ -54,50 +55,62 @@ func (c *Report) UnmarshalJSON(input []byte) error {
 		}
 
 		switch k {
+		case "Key":
+			if key, ok := v.(string); ok {
+				c.Key = key
+			}
 		case "CountryCode":
-			c.Country.Code = v
+			if code, ok := v.(string); ok {
+				c.Country.Code = code
+			}
 		case "CountryName":
-			c.Country.Name = v
+			if name, ok := v.(string); ok {
+				c.Country.Name = name
+			}
 		case "RegionCode":
-			c.Region.Code = v
+			if code, ok := v.(string); ok {
+				c.Region.Code = code
+			}
 		case "RegionName":
-			c.Region.Name = v
+			if name, ok := v.(string); ok {
+				c.Region.Name = name
+			}
 		case "Date":
-			t, err := time.Parse("2006-01-02", v)
-			if err != nil {
-				return err
+			if date, ok := v.(string); ok {
+				t, err := time.Parse("2006-01-02", date)
+				if err != nil {
+					return err
+				}
+				c.Date = t
 			}
-			c.Date = t
 		case "Confirmed":
-			i, err := strconv.Atoi(v)
-			if err != nil {
-				return err
+			if confirmed, ok := v.(float64); ok {
+				c.Confirmed = confirmed
 			}
-			c.Confirmed = i
 		case "Deaths":
-			i, err := strconv.Atoi(v)
-			if err != nil {
-				return err
+			if deaths, ok := v.(float64); ok {
+				c.Deaths = deaths
 			}
-			c.Deaths = i
 		case "Population":
-			i, err := strconv.Atoi(v)
-			if err != nil {
-				return err
+			if pop, ok := v.(float64); ok {
+				c.Population = pop
 			}
-			c.Population = i
 		case "Latitude":
-			f, err := strconv.ParseFloat(v, 64)
-			if err != nil {
-				return err
+			if lat, ok := v.(string); ok {
+				f, err := strconv.ParseFloat(lat, 64)
+				if err != nil {
+					return err
+				}
+				c.Latitude = f
 			}
-			c.Latitude = f
 		case "Longitude":
-			f, err := strconv.ParseFloat(v, 64)
-			if err != nil {
-				return err
+			if lon, ok := v.(string); ok {
+				f, err := strconv.ParseFloat(lon, 64)
+				if err != nil {
+					return err
+				}
+				c.Longitude = f
 			}
-			c.Longitude = f
 		}
 	}
 
